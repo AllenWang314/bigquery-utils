@@ -13,7 +13,7 @@
               "count": 1
             },
             {
-              "token_name": "table_schema",
+              "tokenName": "table_schema",
               "required": true,
               "count": 1
             }

@@ -2,13 +2,9 @@ import com.google.common.collect.ImmutableMap;
 
 public class KeywordsMapping {
 
-  // TODO (spoiledhua): refactor paths to take in new json config files
-  private final String filePathPostgreDDL = "./src/main/resources/dialect_config/ddl_mapping_postgre.json";
-  private final String filePathPostgreDML = "./src/main/resources/dialect_config/dml_mapping_postgre.json";
-  private final String filePathPostgreDQL = "./src/main/resources/dialect_config/dql_mapping_postgre.json";
-  private final String filePathBigQueryDDL = "./src/main/resources/dialect_config/ddl_mapping_BQ.json";
-  private final String filePathBigQueryDML = "./src/main/resources/dialect_config/dml_mapping_BQ.json";
-  private final String filePathBigQueryDQL = "./src/main/resources/dialect_config/dql_mapping_BQ.json";
+  private final String filePathDDL = "./src/main/resources/dialect_config/ddl_mapping.json";
+  private final String filePathDML = "./src/main/resources/dialect_config/dml_mapping.json";
+  private final String filePathDQL = "./src/main/resources/dialect_config/dql_mapping.json";
 
   private final ImmutableMap<String, String> mapPostgreDDL;
   private final ImmutableMap<String, String> mapPostgreDML;
@@ -23,12 +19,8 @@ public class KeywordsMapping {
    * Constructor of keywords mapping, parsed from the config file
    */
   public KeywordsMapping() {
-    mapPostgreDDL = Utils.makeImmutableMap(filePathPostgreDDL, keywords.getKeywordsDDL());
-    mapPostgreDML = Utils.makeImmutableMap(filePathPostgreDML, keywords.getKeywordsDML());
-    mapPostgreDQL = Utils.makeImmutableMap(filePathPostgreDQL, keywords.getKeywordsDQL());
-    mapBigQueryDDL = Utils.makeImmutableMap(filePathBigQueryDDL, keywords.getKeywordsDDL());
-    mapBigQueryDML = Utils.makeImmutableMap(filePathBigQueryDML, keywords.getKeywordsDML());
-    mapBigQueryDQL = Utils.makeImmutableMap(filePathBigQueryDQL, keywords.getKeywordsDQL());
+    // TODO (spoiledhua): determine new return structure for keywords mappings
+
   }
 
   /**
@@ -120,4 +112,6 @@ public class KeywordsMapping {
 
     return mapBigQueryDQL.get(word);
   }
+
+  // TODO (spoiledhua): add tokens function that returns necessary tokens given keyword
 }

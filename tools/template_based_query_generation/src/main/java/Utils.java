@@ -2,11 +2,11 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gson.Gson;
+import com.sun.tools.javac.parser.Tokens;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -24,9 +24,9 @@ public class Utils {
   private static final String CHARSET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
 
   /**
-   * Helper class that returns all KeywordIndicator(s) for JSON deserialization
+   * Helper class that contains all KeywordIndicator(s) for JSON deserialization
    */
-  private class Config {
+  private class KeywordIndicators {
     private List<KeywordIndicator> keywordIndicators;
 
     public List<KeywordIndicator> getKeywordIndicators() {
@@ -59,6 +59,111 @@ public class Utils {
 
     public void setIsIncluded(boolean isIncluded) {
       this.isIncluded = isIncluded;
+    }
+  }
+
+  /**
+   * Helper class that contains all Feature(s) for JSON deserialization
+   */
+  private class Features {
+    private List<Feature> features;
+
+    public List<Feature> getFeatures() {
+      return this.features;
+    }
+
+    public void setFeatures(List<Feature> features) {
+      this.features = features;
+    }
+  }
+
+  /**
+   * Helper class that contains all keyword variants of a feature
+   */
+  private class Feature {
+    private String feature;
+    private List<Mapping> allMappings;
+
+    public String getFeature() {
+      return this.feature;
+    }
+
+    public void setFeature(String feature) {
+      this.feature = feature;
+    }
+
+    public List<Mapping> getAllMappings() {
+      return this.allMappings;
+    }
+
+    public void setAllMappings(List<Mapping> allMappings) {
+      this.allMappings = allMappings;
+    }
+
+    /**
+     * Helper class that lists PostgreSQL and BigQuery mappings and necessary tokens for all keyword variants
+     */
+    private class Mapping {
+      private String postgre;
+      private String bigQuery;
+      private List<Tokens> tokens;
+
+      public String getPostgre() {
+        return this.postgre;
+      }
+
+      public void setPostgre(String postgre) {
+        this.postgre = postgre;
+      }
+
+      public String getBigQuery() {
+        return this.bigQuery;
+      }
+
+      public void setBigQuery(String bigQuery) {
+        this.bigQuery = bigQuery;
+      }
+
+      public List<Tokens> getTokens() {
+        return this.tokens;
+      }
+
+      public void setTokens(List<Tokens> tokens) {
+        this.tokens = tokens;
+      }
+    }
+
+    /**
+     * Helper class that indicates what tokens need to follow the associated keyword
+     */
+    private class Token {
+      private String tokenName;
+      private boolean required;
+      private int count;
+
+      public String getTokenName() {
+        return this.tokenName;
+      }
+
+      public void setTokenName(String tokenName) {
+        this.tokenName = tokenName;
+      }
+
+      public boolean getRequired() {
+        return this.required;
+      }
+
+      public void setRequired(boolean required) {
+        this.required = required;
+      }
+
+      public int getCount() {
+        return this.count;
+      }
+
+      public void setCount(int count) {
+        this.count = count;
+      }
     }
   }
 
@@ -172,11 +277,11 @@ public class Utils {
   public static ImmutableSet<String> makeImmutableSet(Path inputPath) throws IOException {
     BufferedReader reader = Files.newBufferedReader(inputPath, UTF_8);
     Gson gson = new Gson();
-    Config config = gson.fromJson(reader, Config.class);
+    KeywordIndicators keywordIndicators = gson.fromJson(reader, KeywordIndicators.class);
 
     ImmutableList.Builder<String> builder = ImmutableList.builder();
 
-    for (KeywordIndicator keywordIndicator : config.getKeywordIndicators()) {
+    for (KeywordIndicator keywordIndicator : keywordIndicators.getKeywordIndicators()) {
       if (keywordIndicator.getIsIncluded()) {
         builder.add(keywordIndicator.getKeyword());
       }
@@ -190,24 +295,20 @@ public class Utils {
   /**
    * Creates an immutable map from the user-defined config file of keyword mappings
    *
-   * @param fileName relative path of the config file
+   * @param inputPath relative path of the config file
    * @return an immutable map between user-defined keywords and PostgreSQL or BigQuery from the config file
    */
-  public static ImmutableMap<String, String> makeImmutableMap(String fileName, ImmutableSet<String> keywords) {
+  public static ImmutableMap<String, String> makeImmutableMap(Path inputPath, ImmutableSet<String> keywords) throws IOException {
+    BufferedReader reader = Files.newBufferedReader(inputPath, UTF_8);
+    Gson gson = new Gson();
+    Features features = gson.fromJson(reader, Features.class);
+
     ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
 
-    try (BufferedReader reader = Files.newBufferedReader(Paths.get(fileName), UTF_8)) {
-      String line;
-      while ((line = reader.readLine()) != null) {
-        if (!(line.charAt(0) == '/' && line.charAt(1) == '/')) {
-          String[] pair = line.split(":");
-          if (keywords.contains(pair[0])) {
-            builder.put(pair[0], pair[1]);
-          }
-        }
+    for (Feature feature : features.getFeatures()) {
+      if (keywords.contains(feature.getFeature())) {
+        // TODO (spoiledhua): parse features into KeywordsMapping maps, determine return structure
       }
-    } catch (IOException exception) {
-      System.out.println(exception);
     }
 
     ImmutableMap<String, String> map = builder.build();
