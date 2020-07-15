@@ -2,18 +2,18 @@
   "features": [
     {
       "feature": "DDL_CREATE",
-      "allMappings": [
+      "all_mappings": [
         {
           "postgres": "CREATE TABLE",
-          "bigQuery": "CREATE TABLE",
+          "big_query": "CREATE TABLE",
           "tokens": [
             {
-              "tokenName": "table_name",
+              "token_name": "table_name",
               "required": true,
               "count": 1
             },
             {
-              "tokenName": "table_schema",
+              "token_name": "table_schema",
               "required": true,
               "count": 1
             }
@@ -21,15 +21,15 @@
         },
         {
           "postgres": "CREATE TABLE IF NOT EXISTS",
-          "bigQuery": "CREATE TABLE IF NOT EXISTS",
+          "big_query": "CREATE TABLE IF NOT EXISTS",
           "tokens": [
             {
-              "tokenName": "table_name",
+              "token_name": "table_name",
               "required": true,
               "count": 1
             },
             {
-              "tokenName": "table_schema",
+              "token_name": "table_schema",
               "required": true,
               "count": 1
             }
@@ -37,15 +37,15 @@
         },
         {
           "postgres": "CREATE TABLE",
-          "bigQuery": "CREATE OR REPLACE TABLE",
+          "big_query": "CREATE OR REPLACE TABLE",
           "tokens": [
             {
-              "tokenName": "table_name",
+              "token_name": "table_name",
               "required": true,
               "count": 1
             },
             {
-              "tokenName": "table_schema",
+              "token_name": "table_schema",
               "required": true,
               "count": 1
             }
@@ -55,13 +55,13 @@
     },
     {
       "feature": "DDL_PARTITION",
-      "allMappings": [
+      "all_mappings": [
         {
           "postgres": "PARTITION BY",
-          "bigQuery": "PARTITION BY",
+          "big_query": "PARTITION BY",
           "tokens": [
             {
-              "tokenName": "partition_exp",
+              "token_name": "partition_exp",
               "required": true,
               "count": 1
             }
@@ -71,13 +71,13 @@
     },
     {
       "feature": "DDL_CLUSTER",
-      "allMappings": [
+      "all_mappings": [
         {
           "postgres": "COLLATE",
-          "bigQuery": "CLUSTER BY",
+          "big_query": "CLUSTER BY",
           "tokens": [
             {
-              "tokenName": "cluster_exp",
+              "token_name": "cluster_exp",
               "required": true,
               "count": 1
             }
@@ -87,10 +87,10 @@
     },
     {
       "feature": "DDL_AS",
-      "allMappings": [
+      "all_mappings": [
         {
           "postgres": "AS",
-          "bigQuery": "AS",
+          "big_query": "AS",
           "tokens": [
           ]
         }
