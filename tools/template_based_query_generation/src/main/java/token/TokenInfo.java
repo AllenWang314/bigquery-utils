@@ -4,16 +4,16 @@ package token;
  * class representing token information to be parsed from json mapping files
  */
 public class TokenInfo {
-  private String tokenName;
+  private TokenType tokenType;
   private boolean required;
   private int count;
 
-  public String getTokenName() {
-    return this.tokenName;
+  public TokenType getTokenName() {
+    return this.tokenType;
   }
 
-  public void setTokenName(String tokenName) {
-    this.tokenName = tokenName;
+  public void setTokenName(TokenType tokenType) {
+    this.tokenType = tokenType;
   }
 
   public boolean getRequired() {
