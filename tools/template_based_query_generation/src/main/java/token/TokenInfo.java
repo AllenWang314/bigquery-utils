@@ -8,11 +8,11 @@ public class TokenInfo {
   private boolean required;
   private int count;
 
-  public TokenType getTokenName() {
+  public TokenType getTokenType() {
     return this.tokenType;
   }
 
-  public void setTokenName(TokenType tokenType) {
+  public void setTokenType(TokenType tokenType) {
     this.tokenType = tokenType;
   }
 
