@@ -1,7 +1,6 @@
 package token;
 
 import com.google.common.collect.ImmutableMap;
-import data.Column;
 import data.DataType;
 import data.Table;
 import parser.DataTypeMap;
@@ -155,7 +154,7 @@ public class Tokenizer {
       postgresToken += " \'" + columnName + "\' " + mapping.getBigQuery() + ",";
     }
     bqToken = bqToken.substring(0, bqToken.length()-1) + " )";
-    postgresToken = postgresToken.substring(0, postgresToken.length()-1) + " )";
+    postgresToken += postgresToken.substring(0, postgresToken.length()-1) + " )";
     token.setBigQueryTokenExpression(bqToken);
     token.setPostgresTokenExpression(postgresToken);
     token.setTokenPlaceHolder("<table_schema " + placeHolder + ">");
@@ -220,7 +219,6 @@ public class Tokenizer {
     int placeHolder = generateNextPlaceHolder(token.getTokenInfo().getTokenType());
     int numRows = r.nextInt(this.maxNumColumnsValues) + 1;
     ArrayList<ArrayList<? extends Object>> values = this.table.generateData(numRows);
-    
     // parse the values and hardcode into appropriate token
     String bqToken = "";
     String postgresToken = "";
