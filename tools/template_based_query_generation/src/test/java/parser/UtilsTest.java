@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gson.Gson;
+import data.Table;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import token.TokenInfo;
@@ -54,8 +55,10 @@ public class UtilsTest {
     Map<String, ImmutableList<String>> expectedOutputs = new HashMap<>();
     expectedOutputs.put("BigQuery", ImmutableList.copyOf(expected_bigQuery));
     expectedOutputs.put("PostgreSQL", ImmutableList.copyOf(expected_postgreSQL));
+    Table testTable = new Table("Test Table");
 
-    Utils.writeDirectory(ImmutableMap.copyOf(expectedOutputs), testDir);
+    Utils.writeDirectory(ImmutableMap.copyOf(expectedOutputs), testTable, testDir);
+    // TODO (spoiledhua): add actual test for table
 
     List<String> actual_bigQuery = Files.readAllLines(Paths.get(testDir.toString() + "/bigQuery.txt"));
     List<String> actual_postgreSQL = Files.readAllLines(Paths.get(testDir.toString() + "/postgreSQL.txt"));
