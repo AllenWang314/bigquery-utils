@@ -5,9 +5,9 @@
   "numColumns": 5,
   "numQueries": 1000,
   "dialectIndicators": {
-    "postgres": false,
+    "postgres": true,
     "bigQuery": true,
-    "mySql": true
+    "mySql": false
   }
 }
 

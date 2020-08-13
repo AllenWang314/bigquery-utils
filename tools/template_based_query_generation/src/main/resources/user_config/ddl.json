@@ -2,7 +2,7 @@
   "featureIndicators": [
     {
       "feature": "DDL_FEATURE_ROOT",
-      "isIncluded": true
+      "isIncluded": false
     },
     {
       "feature": "DDL_CREATE",
